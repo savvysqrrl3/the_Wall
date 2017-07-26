@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>The Wall - messages</title>
+	</head>
+	<body>
+		<h4>Welcome {{request.session.first_name}}!</h4>
+		<form action="/wall/message" method="post">
+			{% csrf_token %}
+			Post a message
+			<p><textarea name="message" rows="10" cols="100"></textarea></p><br>
+			<input type="hidden" name="id">
+			<input type="submit" name="submit" value="Post a message">			
+		</form>
+
+		{% for message in posts %}
+			<p>{{message.author.first_name}} {{message.author.last_name}}   {{message.created_at}} </p>
+			<p> {{message.content}}</p>
+			<form action = "/wall/comment" method = "post">
+				{% csrf_token %}
+			
+				Comment:
+				<p><textarea name = "comment" rows = "4" cols="80"></textarea></p>
+				<input type="hidden" name="id" value="{{message.id}}">
+				<input type="submit" name="submit" value="Post comment">
+			</form>
+			{% if message.comment_set.all %}
+				{% for comment in message.comment_set.all %}
+					<p> {{comment.author.first_name}} {{comment.author.last_name}} {{comment.created_at}}</p>
+					<p> {{comment.content}} </p>
+				{% endfor %}
+			{% endif %}
+		{% endfor %}
+		
+
+	</body>
+</html>

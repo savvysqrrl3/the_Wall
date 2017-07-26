@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>The Wall -login</title>
+	</head>
+	<body>
+		{% if messages %}
+			{% for message in messages %}
+				{% if message.tags == 'error' %}
+				 	<p style="color: red">{{message}}</p>
+				{% endif %}
+				{% if message.tags == 'success' %}
+				 	<p style="color: green">{{message}}</p>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+		<h2>Register</h2>
+		<form action="/register" method="post">
+			{% csrf_token %}
+			<p>First name:  <input type="text" name="firstnm"></p>
+			<p>Last name:  <input type="text" name="lastnm"></p>
+			<p>E-mail address:  <input type="text" name="email"></p>
+			<p>Password:  <input type="password" name="pw"></p>
+			<p>Confirm password:  <input type="password" name="confirmpw"></p>
+			<p><input type="submit" name="submit" value="Register"></p>
+		</form>
+
+		<h2>Log in</h2>
+		<form action="/login" method="post">
+			{% csrf_token %}
+			<p>E-mail address:  <input type="text" name="email"></p>
+			<p>Password:  <input type="password" name="pw"></p>
+			<input type="hidden" name="id">
+			<p><input type="submit" name="submit" value="Log In"></p>
+		</form>
+	</body>
+</html>
